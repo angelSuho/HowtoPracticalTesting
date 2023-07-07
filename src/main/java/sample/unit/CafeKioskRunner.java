@@ -1,7 +1,10 @@
 package sample.unit;
 
+import sample.unit.Order.Order;
 import sample.unit.beverage.Americano;
 import sample.unit.beverage.Latte;
+
+import java.time.LocalDateTime;
 
 public class CafeKioskRunner {
 
@@ -16,5 +19,7 @@ public class CafeKioskRunner {
 
         int totalPrice = cafeKiosk.calculateTotalPrice();
         System.out.println("총 주문가격 : " + totalPrice);
+
+        Order order = cafeKiosk.createOrder(LocalDateTime.now());
     }
 }
