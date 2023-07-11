@@ -1,9 +1,9 @@
 package sample.unit.beverage;
 
 import org.junit.jupiter.api.Test;
+import sample.howtopracticaltesting.unit.beverage.Americano;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class AmericanoTest {
 

@@ -2,9 +2,10 @@ package sample.unit;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import sample.unit.Order.Order;
-import sample.unit.beverage.Americano;
-import sample.unit.beverage.Latte;
+import sample.howtopracticaltesting.unit.CafeKiosk;
+import sample.howtopracticaltesting.unit.Order.Order;
+import sample.howtopracticaltesting.unit.beverage.Americano;
+import sample.howtopracticaltesting.unit.beverage.Latte;
 
 import java.time.LocalDateTime;
 

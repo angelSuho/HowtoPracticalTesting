@@ -1,8 +1,8 @@
-package sample.unit;
+package sample.howtopracticaltesting.unit;
 
 import lombok.Getter;
-import sample.unit.Order.Order;
-import sample.unit.beverage.Beverage;
+import sample.howtopracticaltesting.unit.Order.Order;
+import sample.howtopracticaltesting.unit.beverage.Beverage;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

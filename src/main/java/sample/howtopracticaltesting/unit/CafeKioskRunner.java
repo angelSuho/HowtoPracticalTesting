@@ -1,8 +1,8 @@
-package sample.unit;
+package sample.howtopracticaltesting.unit;
 
-import sample.unit.Order.Order;
-import sample.unit.beverage.Americano;
-import sample.unit.beverage.Latte;
+import sample.howtopracticaltesting.unit.Order.Order;
+import sample.howtopracticaltesting.unit.beverage.Americano;
+import sample.howtopracticaltesting.unit.beverage.Latte;
 
 import java.time.LocalDateTime;
 

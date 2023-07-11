@@ -1,4 +1,4 @@
-package sample.unit.beverage;
+package sample.howtopracticaltesting.unit.beverage;
 
 public class Latte implements Beverage {
 
