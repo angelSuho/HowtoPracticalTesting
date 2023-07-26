@@ -1,12 +1,10 @@
 package sample.howtopracticaltesting.spring.domain.product.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import sample.howtopracticaltesting.spring.domain.BaseEntity;
 
+@ToString
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
