@@ -1,12 +1,14 @@
 package sample.howtopracticaltesting.spring.api.service.order;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import sample.howtopracticaltesting.spring.api.controller.order.request.OrderCreateRequest;
+import sample.howtopracticaltesting.spring.api.service.order.request.OrderCreateServiceRequest;
 import sample.howtopracticaltesting.spring.api.service.order.response.OrderResponse;
 import sample.howtopracticaltesting.spring.domain.order.OrderRepository;
 import sample.howtopracticaltesting.spring.domain.orderproduct.OrderProductRepository;
@@ -42,7 +44,7 @@ class OrderServiceTest {
     @Autowired
     private StockRepository stockRepository;
 
-    @AfterEach
+    @BeforeEach
     void tearDown() {
         orderProductRepository.deleteAllInBatch();
         productRepository.deleteAllInBatch();
@@ -66,7 +68,7 @@ class OrderServiceTest {
                 .build();
 
         // when
-        OrderResponse orderResponse = orderService.createOrder(request, registeredDateTime);
+        OrderResponse orderResponse = orderService.createOrder(request.toServiceRequest(), registeredDateTime);
 
         // then
         assertThat(orderResponse.getId()).isNotNull();
@@ -101,7 +103,7 @@ class OrderServiceTest {
                 .build();
 
         // when
-        OrderResponse orderResponse = orderService.createOrder(request, registeredDateTime);
+        OrderResponse orderResponse = orderService.createOrder(request.toServiceRequest(), registeredDateTime);
 
         // then
         assertThat(orderResponse.getId()).isNotNull();
@@ -147,7 +149,7 @@ class OrderServiceTest {
                 .build();
 
         // when // then
-        assertThatThrownBy(() -> orderService.createOrder(request, registeredDateTime))
+        assertThatThrownBy(() -> orderService.createOrder(request.toServiceRequest(), registeredDateTime))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("재고가 부족한 상품이 있습니다.");
     }
@@ -163,7 +165,7 @@ class OrderServiceTest {
         Product product3 = createProduct(HANDMADE, "003", 5000);
         productRepository.saveAll(List.of(product1, product2, product3));
 
-        OrderCreateRequest request = OrderCreateRequest.builder()
+        OrderCreateServiceRequest request = OrderCreateServiceRequest.builder()
                 .productNumbers(List.of("001", "001"))
                 .build();
 

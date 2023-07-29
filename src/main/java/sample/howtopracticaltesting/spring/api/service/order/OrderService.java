@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sample.howtopracticaltesting.spring.api.controller.order.request.OrderCreateRequest;
+import sample.howtopracticaltesting.spring.api.service.order.request.OrderCreateServiceRequest;
 import sample.howtopracticaltesting.spring.api.service.order.response.OrderResponse;
 import sample.howtopracticaltesting.spring.domain.order.Order;
 import sample.howtopracticaltesting.spring.domain.order.OrderRepository;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class OrderService {
@@ -28,34 +30,16 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final StockRepository stockRepository;
 
-    /*
-    * 재고 감소 -> 동시성 고민
-    * optimistic lock / pessimistic lock / ...
-    * */
     @Transactional
-    public OrderResponse createOrder(OrderCreateRequest request, LocalDateTime registeredDateTime) {
+    public OrderResponse createOrder(OrderCreateServiceRequest request, LocalDateTime registeredDateTime) {
         List<String> productNumbers = request.getProductNumbers();
         List<Product> products = findProductsBy(productNumbers);
 
         deductStockQuantities(products);
 
-        System.out.println("products = " + products);
-
         Order order = Order.create(products, registeredDateTime);
         Order savedOrder = orderRepository.save(order);
         return OrderResponse.of(savedOrder);
-    }
-
-    private List<Product> findProductsBy(List<String> productNumbers) {
-        List<Product> products = productRepository.findAllByProductNumberIn(productNumbers);
-        Map<String, Product> productMap = products.stream()
-                .collect(Collectors.toMap(Product::getProductNumber, p -> p));
-
-        System.out.println("productMap = " + productMap);
-
-        return productNumbers.stream()
-                .map(productMap::get)
-                .collect(Collectors.toList());
     }
 
     private void deductStockQuantities(List<Product> products) {
@@ -71,9 +55,18 @@ public class OrderService {
             if (stock.isQuantityLessThan(quantity)) {
                 throw new IllegalArgumentException("재고가 부족한 상품이 있습니다.");
             }
-
             stock.deductQuantity(quantity);
         }
+    }
+
+    private List<Product> findProductsBy(List<String> productNumbers) {
+        List<Product> products = productRepository.findAllByProductNumberIn(productNumbers);
+        Map<String, Product> productMap = products.stream()
+                .collect(Collectors.toMap(Product::getProductNumber, p -> p));
+
+        return productNumbers.stream()
+                .map(productMap::get)
+                .collect(Collectors.toList());
     }
 
     private static List<String> extractStockProductNumbers(List<Product> products) {
@@ -93,4 +86,5 @@ public class OrderService {
         return stockProductNumbers.stream()
                 .collect(Collectors.groupingBy(p -> p, Collectors.counting()));
     }
+
 }
