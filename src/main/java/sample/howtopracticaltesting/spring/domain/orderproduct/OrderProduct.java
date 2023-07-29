@@ -4,10 +4,12 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import sample.howtopracticaltesting.spring.domain.BaseEntity;
 import sample.howtopracticaltesting.spring.domain.order.Order;
 import sample.howtopracticaltesting.spring.domain.product.entity.Product;
 
+@ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
