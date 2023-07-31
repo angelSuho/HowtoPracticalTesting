@@ -5,8 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import sample.howtopracticaltesting.spring.IntegrationTestSupport;
 import sample.howtopracticaltesting.spring.api.controller.product.dto.request.ProductCreateRequest;
 import sample.howtopracticaltesting.spring.domain.product.ProductRepository;
 import sample.howtopracticaltesting.spring.domain.product.entity.Product;
@@ -17,19 +16,24 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.junit.jupiter.api.Assertions.*;
-import static sample.howtopracticaltesting.spring.domain.product.entity.ProductSellingStatus.*;
+import static sample.howtopracticaltesting.spring.domain.product.entity.ProductSellingStatus.SELLING;
 import static sample.howtopracticaltesting.spring.domain.product.entity.ProductType.HANDMADE;
 
-@ActiveProfiles("test")
-@SpringBootTest
-class ProductServiceTest {
+class ProductServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private ProductService productService;
 
     @Autowired
     private ProductRepository productRepository;
+
+    @BeforeEach
+    void setUp() {
+        //before method
+
+        // 각 테스트 입장에서 봤을때 : 아예 몰라도 테스트 내용을 이해하는 데에 문제가 없는가?
+        // 수정해도 모든 테스트에 영향을 주지 않는가?
+    }
 
     @AfterEach
     void tearDown() {

@@ -17,6 +17,7 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductNumberFactory productNumberFactory;
 
     /*
     * readOnly = true : 읽기전용
@@ -27,7 +28,7 @@ public class ProductService {
     * */
     @Transactional
     public ProductResponse createProduct(ProductCreateServiceRequest request) {
-        String nextProductNumber = createNextProductNumber();
+        String nextProductNumber = productNumberFactory.createNextProductNumber();
 
         Product product = request.toEntity(nextProductNumber);
         Product savedProduct = productRepository.save(product);
@@ -40,16 +41,5 @@ public class ProductService {
         return products.stream()
                 .map(ProductResponse::of)
                 .toList();
-    }
-
-    private String createNextProductNumber() {
-        String latestProductNumber = productRepository.findLatestProductNumber();
-        if (latestProductNumber == null) {
-            return "001";
-        }
-
-        int latestProductNumberInt = Integer.parseInt(latestProductNumber);
-        int nextProductNumberInt = latestProductNumberInt + 1;
-        return String.format("%03d", nextProductNumberInt);
     }
 }

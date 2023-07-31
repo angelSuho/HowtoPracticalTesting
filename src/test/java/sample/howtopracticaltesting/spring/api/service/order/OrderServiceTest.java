@@ -1,12 +1,10 @@
 package sample.howtopracticaltesting.spring.api.service.order;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import sample.howtopracticaltesting.spring.IntegrationTestSupport;
 import sample.howtopracticaltesting.spring.api.controller.order.request.OrderCreateRequest;
 import sample.howtopracticaltesting.spring.api.service.order.request.OrderCreateServiceRequest;
 import sample.howtopracticaltesting.spring.api.service.order.response.OrderResponse;
@@ -25,9 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 import static sample.howtopracticaltesting.spring.domain.product.entity.ProductSellingStatus.SELLING;
 import static sample.howtopracticaltesting.spring.domain.product.entity.ProductType.*;
 
-@ActiveProfiles("test")
-@SpringBootTest
-class OrderServiceTest {
+class OrderServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private ProductRepository productRepository;
@@ -44,7 +40,7 @@ class OrderServiceTest {
     @Autowired
     private StockRepository stockRepository;
 
-    @BeforeEach
+    @AfterEach
     void tearDown() {
         orderProductRepository.deleteAllInBatch();
         productRepository.deleteAllInBatch();

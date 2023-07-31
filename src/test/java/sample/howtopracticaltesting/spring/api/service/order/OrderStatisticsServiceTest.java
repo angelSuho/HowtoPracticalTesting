@@ -1,13 +1,11 @@
 package sample.howtopracticaltesting.spring.api.service.order;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import sample.howtopracticaltesting.spring.IntegrationTestSupport;
 import sample.howtopracticaltesting.spring.client.mail.MailSendClient;
 import sample.howtopracticaltesting.spring.domain.history.mail.MailSendHistory;
 import sample.howtopracticaltesting.spring.domain.history.mail.MailSendHistoryRepository;
@@ -24,13 +22,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static sample.howtopracticaltesting.spring.domain.product.entity.ProductSellingStatus.SELLING;
 import static sample.howtopracticaltesting.spring.domain.product.entity.ProductType.HANDMADE;
 
-@SpringBootTest
-class OrderStatisticsServiceTest {
+class OrderStatisticsServiceTest extends IntegrationTestSupport {
 
     @Autowired
     private OrderStatisticsService orderStatisticsService;
@@ -47,10 +44,7 @@ class OrderStatisticsServiceTest {
     @Autowired
     private MailSendHistoryRepository mailSendHistoryRepository;
 
-    @MockBean
-    private MailSendClient mailSendClient;
-
-    @BeforeEach
+    @AfterEach
     void setUp() {
         orderProductRepository.deleteAllInBatch();
         orderRepository.deleteAllInBatch();
