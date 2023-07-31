@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import sample.howtopracticaltesting.spring.IntegrationTestSupport;
 import sample.howtopracticaltesting.spring.api.controller.product.dto.request.ProductCreateRequest;
+import sample.howtopracticaltesting.spring.api.service.product.request.ProductCreateServiceRequest;
 import sample.howtopracticaltesting.spring.domain.product.ProductRepository;
 import sample.howtopracticaltesting.spring.domain.product.entity.Product;
 import sample.howtopracticaltesting.spring.domain.product.entity.ProductSellingStatus;
@@ -33,12 +34,13 @@ class ProductServiceTest extends IntegrationTestSupport {
 
         // 각 테스트 입장에서 봤을때 : 아예 몰라도 테스트 내용을 이해하는 데에 문제가 없는가?
         // 수정해도 모든 테스트에 영향을 주지 않는가?
-    }
-
-    @AfterEach
-    void tearDown() {
         productRepository.deleteAllInBatch();
     }
+//
+//    @AfterEach
+//    void tearDown() {
+//        productRepository.deleteAllInBatch();
+//    }
 
     @DisplayName("신규 상품을 등록한다. 상품번호는 가장 최근 상품의 상품번호에서 1 증가한 값이다.")
     @Test
@@ -47,7 +49,7 @@ class ProductServiceTest extends IntegrationTestSupport {
         Product product = createProduct("001", HANDMADE, SELLING, "아메리카노", 4000);
         productRepository.save(product);
 
-        ProductCreateRequest request = ProductCreateRequest.builder()
+        ProductCreateServiceRequest request = ProductCreateServiceRequest.builder()
                 .type(HANDMADE)
                 .sellingStatus(SELLING)
                 .name("카푸치노")
@@ -55,7 +57,7 @@ class ProductServiceTest extends IntegrationTestSupport {
                 .build();
 
         //when
-        ProductResponse productResponse = productService.createProduct(request.toServiceRequest());
+        ProductResponse productResponse = productService.createProduct(request);
 
         //then
         assertThat(productResponse)

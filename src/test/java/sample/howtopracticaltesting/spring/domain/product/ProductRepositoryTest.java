@@ -1,11 +1,10 @@
 package sample.howtopracticaltesting.spring.domain.product;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import sample.howtopracticaltesting.spring.IntegrationTestSupport;
 import sample.howtopracticaltesting.spring.domain.product.entity.Product;
@@ -24,6 +23,11 @@ class ProductRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @BeforeEach
+    void setUp() {
+        productRepository.deleteAllInBatch();
+    }
 
     @DisplayName("원하는 판매상태를 가진 상품들을 조회한다.")
     @Test
