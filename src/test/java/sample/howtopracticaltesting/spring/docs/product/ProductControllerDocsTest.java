@@ -10,18 +10,16 @@ import sample.howtopracticaltesting.spring.api.service.product.ProductResponse;
 import sample.howtopracticaltesting.spring.api.service.product.ProductService;
 import sample.howtopracticaltesting.spring.api.service.product.request.ProductCreateServiceRequest;
 import sample.howtopracticaltesting.spring.docs.RestDocsSupport;
-import sample.howtopracticaltesting.spring.domain.product.entity.ProductSellingStatus;
-import sample.howtopracticaltesting.spring.domain.product.entity.ProductType;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static sample.howtopracticaltesting.spring.domain.product.entity.ProductSellingStatus.SELLING;
-import static sample.howtopracticaltesting.spring.domain.product.entity.ProductType.*;
 import static sample.howtopracticaltesting.spring.domain.product.entity.ProductType.HANDMADE;
 
 public class ProductControllerDocsTest extends RestDocsSupport {
@@ -61,10 +59,13 @@ public class ProductControllerDocsTest extends RestDocsSupport {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andDo(document("product-create",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestFields(
                             fieldWithPath("type").type(JsonFieldType.STRING).
                                     description("상품 타입"),
                             fieldWithPath("sellingStatus").type(JsonFieldType.STRING)
+                                    .optional()
                                     .description("상품 판매 상태"),
                             fieldWithPath("name").type(JsonFieldType.STRING)
                                     .description("상품 이름"),
