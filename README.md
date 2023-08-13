@@ -109,7 +109,7 @@
 - @DynamicTest를 사용하려면 @TestFactory 어노테이션을 사용하여 테스트 팩토리 메소드를 정의. 이 메소드는 Stream, Collection, Iterable 또는 Iterator 형태의 DynamicTest 객체를 반환
 - @DynamicTest 메소드는 직접 호출되지 않으므로, @BeforeEach 또는 @AfterEach 어노테이션과 함께 사용X
 
-### 테스트 환경 통합
+## 테스트 환경 통합
 - 테스트 수행도 비용이다. 환경 통합
 
 ## 학습 테스트
